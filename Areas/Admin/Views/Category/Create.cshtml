@@ -1,0 +1,78 @@
+﻿@model OnlineShop.Models.Category
+@{
+    ViewData["Title"] = "Add Category";
+}
+
+<h3 class="text-info">Add New Category</h3>
+<form method="post" action="Create" enctype="multipart/form-data">
+    <div class="p-4 rounded border">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+
+        </div>
+        <h3>@ViewBag.message</h3>
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label asp-for="CategoryName"></label>
+            </div>
+            <div class="col-md-5">
+                <input asp-for="CategoryName" class="form-control">
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row mt-2">
+            <div class="col-md-2">
+                <label asp-for="ProductId"></label>
+            </div>
+            <div class="col-md-5">
+                <select asp-for="ProductId" id="productId" asp-items="ViewBag.productId" class="form-control">
+                    <option value="0" disabled selected>Select an item...</option>
+                </select>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row mt-2">
+            <div class="col-md-2">
+                <label asp-for="ProductType"></label>
+            </div>
+            <div class="col-md-5">
+                <input asp-for="ProductType" id="productType" readonly class="form-control">
+                <span asp-validation-for="ProductType" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row mt-2">
+            <div class="col-md-2">
+                <label asp-for="TagName"></label>
+            </div>
+            <div class="col-md-5">
+                <input asp-for="TagName" id="tagName" readonly class="form-control">
+                <span asp-validation-for="TagName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group mt-3">
+            <input type="submit" class="btn btn-primary" value="Save" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    $("#productId").on('change', function () {
+        var productId = $(this).val();
+        var params = { id: productId };
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getJsonData", "Category")',
+            data: params,
+            dataType: "json",
+            success: function (response) {
+                $("#productType").val(response.productType);
+                $("#tagName").val(response.tagName);
+            },
+            error: function() { alert('An error while processing the data.'); }
+        });
+    })
+</script>
+}

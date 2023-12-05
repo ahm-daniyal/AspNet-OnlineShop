@@ -1,0 +1,57 @@
+﻿@model List<OnlineShop.Models.OrderDetails>
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 class="text-info">Order Details List</h3>
+    </div>
+</div>
+
+<form method="post">
+    <div class="row mb-1">
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Order ID" name="orderId" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" placeholder="Product Name" class="form-control" name="productName" />
+        </div>
+        <div class="col-md-3">
+            <input type="email" class="form-control" placeholder="Email" name="email" />
+        </div>
+        <div class="col-md-3">
+            <input type="submit" class="btn btn-success" value="Filter" />
+        </div>
+    </div>
+</form>
+
+<div>
+    <table class="table table-striped border mt-3" id="orderTable">
+        <thead>
+            <tr class="table-info">
+                <th>Order Id</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone No</th>
+                <th>Order Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Order.OrderNo </td>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Product.Price</td>
+                    <td>@item.Order.Name</td>
+                    <td>@item.Order.Email</td>
+                    <td>@item.Order.PhoneNo</td>
+                    <td>@item.Order.OrderDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
